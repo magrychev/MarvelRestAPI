@@ -9,21 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 @RestController
 public class ComicController {
 
-    private final ServiceComic serviceComic;
+    private ServiceComic SERVICE_COMIC;
 
     @Autowired
-    public ComicController(ServiceComic serviceComic){
-        this.serviceComic=serviceComic;
+    public void setSERVICE_COMIC(ServiceComic SERVICE_COMIC) {
+        this.SERVICE_COMIC = SERVICE_COMIC;
     }
 
     @GetMapping(value = "/v1/comics")
     public ResponseEntity<List<Comic>> readComics(){
-        final List<Comic> comics = serviceComic.readAll();
+        final List<Comic> comics = SERVICE_COMIC.readAll();
         return comics !=null && !comics.isEmpty()
                 ? new ResponseEntity<>(comics, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -31,7 +30,7 @@ public class ComicController {
 
     @GetMapping(value = "/v1/comics/{comicId}")
     public  ResponseEntity<Comic> readComicId(@PathVariable(name = "comicId") int comicId){
-        final Comic comic = serviceComic.read(comicId);
+        final Comic comic = SERVICE_COMIC.read(comicId);
         return comic !=null
                 ? new ResponseEntity<>(comic, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,7 +38,7 @@ public class ComicController {
 
     @GetMapping(value = "/v1/comics/{comicId}/characters")
     public ResponseEntity<List<Character>> readCharactersComicId(@PathVariable(name = "comicId") int comicId){
-        final List<Character> characters = serviceComic.read(comicId).getCharacters();
+        final List<Character> characters = SERVICE_COMIC.read(comicId).getCharacters();
         return characters !=null && characters.isEmpty()
                 ? new ResponseEntity<>(characters, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -47,7 +46,7 @@ public class ComicController {
 
     @PostMapping(value = "/v1/public/comics/new")
     public ResponseEntity<?> addCharacter(@RequestBody Comic comic){
-        return serviceComic.add(comic)
+        return SERVICE_COMIC.add(comic)
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

@@ -1,38 +1,32 @@
 package com.example.marvelrestapi.service;
 
+import com.example.marvelrestapi.DAO.ComicDAO;
 import com.example.marvelrestapi.model.Comic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ServiceComicImpl implements ServiceComic{
-    private static final Map<Integer, Comic> COMIC_REPOSITORY_MAP = new HashMap<>();
 
-    @Override
-    public List<Comic> readAll() {
-        return new ArrayList<>(COMIC_REPOSITORY_MAP.values());
+    private ComicDAO COMIC_REPOSITORY;
+
+    @Autowired
+    public void setCOMIC_REPOSITORY(ComicDAO COMIC_REPOSITORY) {
+        this.COMIC_REPOSITORY = COMIC_REPOSITORY;
     }
 
     @Override
-    public Comic read(int idComic) {
-        return COMIC_REPOSITORY_MAP.get(idComic);
+    public List<Comic> readAll() { return COMIC_REPOSITORY.readAll(); }
+
+    @Override
+    public Comic read(int idComic) { return COMIC_REPOSITORY.read(idComic);
     }
 
     @Override
-    public boolean add(Comic comic) {
-        if(!COMIC_REPOSITORY_MAP.containsKey(comic.getIdComic())) {
-            COMIC_REPOSITORY_MAP.put(comic.getIdComic(), comic);
-            return true;
-        }
-        return false;
-    }
+    public boolean add(Comic comic) { return COMIC_REPOSITORY.add(comic); }
 
     @Override
-    public boolean delete(int idComic) {
-        return COMIC_REPOSITORY_MAP.remove(idComic)!=null;
-    }
+    public boolean delete(int idComic) { return COMIC_REPOSITORY.delete(idComic); }
 }

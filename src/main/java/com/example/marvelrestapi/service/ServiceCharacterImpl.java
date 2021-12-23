@@ -1,40 +1,31 @@
 package com.example.marvelrestapi.service;
 
+import com.example.marvelrestapi.DAO.CharacterDAO;
 import com.example.marvelrestapi.model.Character;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ServiceCharacterImpl implements ServiceCharacter{
 
-    private static final Map<Integer, Character> CHARACTER_REPOSITORY_MAP = new HashMap<>();
+    private CharacterDAO CHARACTER_REPOSITORY;
 
-    @Override
-    public List<Character> readAll() {
-        return new ArrayList<>(CHARACTER_REPOSITORY_MAP.values());
+    @Autowired
+    public void setCHARACTER_REPOSITORY(CharacterDAO CHARACTER_REPOSITORY) {
+        this.CHARACTER_REPOSITORY = CHARACTER_REPOSITORY;
     }
 
     @Override
-    public Character read(int idCharacter) {
-        return CHARACTER_REPOSITORY_MAP.get(idCharacter);
-    }
+    public List<Character> readAll() { return CHARACTER_REPOSITORY.readAll(); }
 
     @Override
-    public boolean add(Character character) {
-        if(!CHARACTER_REPOSITORY_MAP.containsKey(character.getIdCharacter())) {
-            CHARACTER_REPOSITORY_MAP.put(character.getIdCharacter(), character);
-            return true;
-        }
-        return false;
-    }
+    public Character read(int idCharacter) { return CHARACTER_REPOSITORY.read(idCharacter); }
 
     @Override
-    public boolean delete(int idCharacter) {
-        return CHARACTER_REPOSITORY_MAP.remove(idCharacter)!=null;
-    }
+    public boolean add(Character character) { return CHARACTER_REPOSITORY.add(character);}
+
+    @Override
+    public boolean delete(int idCharacter) { return CHARACTER_REPOSITORY.delete(idCharacter);}
 }
