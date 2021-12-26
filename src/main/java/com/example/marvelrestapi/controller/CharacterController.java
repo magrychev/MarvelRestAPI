@@ -2,13 +2,16 @@ package com.example.marvelrestapi.controller;
 
 import com.example.marvelrestapi.model.Character;
 import com.example.marvelrestapi.model.Comic;
+import com.example.marvelrestapi.query.QueryCharacterModel;
 import com.example.marvelrestapi.service.ServiceCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class CharacterController {
@@ -21,8 +24,8 @@ public class CharacterController {
     }
 
     @GetMapping(value = "/v1/public/characters")
-    public ResponseEntity<List<Character>> readCharacters(){
-        final List<Character> characters = SERVICE_CHARACTER.readAll();
+    public ResponseEntity<List<Character>> readCharacters(RequestEntity<QueryCharacterModel> request){
+        final List<Character> characters = SERVICE_CHARACTER.readAll(request.getBody());
         return  characters !=null && !characters.isEmpty()
                 ? new ResponseEntity<>(characters, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -37,8 +40,8 @@ public class CharacterController {
     }
 
     @GetMapping(value = "/v1/public/characters/{characterId}/comics")
-    public ResponseEntity<List<Comic>> readComicsCharacterId(@PathVariable(name = "characterId") int characterId){
-        final List<Comic> comics = SERVICE_CHARACTER.read(characterId).getComics();
+    public ResponseEntity<List<Integer>> readComicsCharacterId(@PathVariable(name = "characterId") int characterId){
+        final List<Integer> comics = SERVICE_CHARACTER.read(characterId).getComics();
         return comics !=null && !comics.isEmpty()
                 ? new ResponseEntity<>(comics, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

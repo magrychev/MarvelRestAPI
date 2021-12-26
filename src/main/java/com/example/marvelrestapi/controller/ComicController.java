@@ -2,9 +2,12 @@ package com.example.marvelrestapi.controller;
 
 import com.example.marvelrestapi.model.Character;
 import com.example.marvelrestapi.model.Comic;
+import com.example.marvelrestapi.query.QueryCharacterModel;
+import com.example.marvelrestapi.query.QueryComicModel;
 import com.example.marvelrestapi.service.ServiceComic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +24,8 @@ public class ComicController {
     }
 
     @GetMapping(value = "/v1/comics")
-    public ResponseEntity<List<Comic>> readComics(){
-        final List<Comic> comics = SERVICE_COMIC.readAll();
+    public ResponseEntity<List<Comic>> readComics(RequestEntity<QueryComicModel> request){
+        final List<Comic> comics = SERVICE_COMIC.readAll(request.getBody());
         return comics !=null && !comics.isEmpty()
                 ? new ResponseEntity<>(comics, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

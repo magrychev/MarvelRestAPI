@@ -3,8 +3,11 @@ package com.example.marvelrestapi.model;
 import java.util.List;
 
 public class Comic {
+
     private int idComic;
+
     private String titleComic;
+
     private List<Character> characters;
 
     public int getIdComic() {

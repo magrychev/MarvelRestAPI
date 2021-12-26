@@ -4,10 +4,14 @@ import java.awt.*;
 import java.util.List;
 
 public class Character {
+
     private int idCharacter;
+
     private String nameCharacter;
+
     private Image thumbnailCharacter;
-    private List<Comic> comics;
+
+    private List<Integer> comics;
 
     public int getIdCharacter() {
         return idCharacter;
@@ -21,7 +25,7 @@ public class Character {
         return thumbnailCharacter;
     }
 
-    public List<Comic> getComics() {
+    public List<Integer> getComics() {
         return comics;
     }
 
@@ -37,7 +41,7 @@ public class Character {
         this.thumbnailCharacter = thumbnailCharacter;
     }
 
-    public void setComics(List<Comic> comics) {
+    public void setComics(List<Integer> comics) {
         this.comics = comics;
     }
 }
