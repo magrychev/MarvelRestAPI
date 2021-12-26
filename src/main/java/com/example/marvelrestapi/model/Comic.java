@@ -1,14 +1,20 @@
 package com.example.marvelrestapi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
+@Schema(description = "Сущность комикса")
 public class Comic {
 
+    @Schema(description = "Идентификатор", example = "1")
     private int idComic;
 
+    @Schema(description = "Название комикса", example = "Marvel")
     private String titleComic;
 
-    private List<Character> characters;
+    @Schema(description = "Cписок идентификаторов персонажей")
+    private List<Integer> characters;
 
     public int getIdComic() {
         return idComic;
@@ -18,7 +24,7 @@ public class Comic {
         return titleComic;
     }
 
-    public List<Character> getCharacters() {
+    public List<Integer> getCharacters() {
         return characters;
     }
 
@@ -30,7 +36,7 @@ public class Comic {
         this.titleComic = titleComic;
     }
 
-    public void setCharacter(List<Character> characters) {
+    public void setCharacter(List<Integer> characters) {
         this.characters = characters;
     }
 }
